@@ -97,3 +97,8 @@ export { default as IconVolumeEmpty } from './volume-empty.svg';
 export { default as IconVolumeOff } from './volume-off.svg';
 export { default as IconWarning } from './warning.svg';
 export { default as IconYahoo } from './yahoo.svg';
+
+
+// ZVS
+export { default as addParticipant } from './addParticipant.svg';
+export { default as bipLogoWhite } from './bip-logo-white.svg';

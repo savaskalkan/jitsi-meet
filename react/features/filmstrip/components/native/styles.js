@@ -79,7 +79,7 @@ export default {
         flex: 1,
         height: 80,
         justifyContent: 'center',
-        margin: 2,
+        //margin: 2,
         overflow: 'hidden',
         position: 'relative',
         width: 80
@@ -115,8 +115,11 @@ export default {
         alignSelf: 'center'
     },
 
+//zvs: stream sırasında gelen videoların içinde olduğu view
     tileViewRows: {
-        justifyContent: 'center'
+        justifyContent: 'center',
+        flexDirection:'row',
+        flexWrap:'wrap'
     },
 
     tileViewRow: {

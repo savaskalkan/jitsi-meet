@@ -138,56 +138,67 @@ function Thumbnail(props: Props) {
 
     return (
         <Container
-            onClick = { _onClick }
-            onLongPress = { participant.local ? undefined : _onShowRemoteVideoMenu }
-            style = { [
+            onClick={_onClick}
+            onLongPress={participant.local ? undefined : _onShowRemoteVideoMenu}
+            style={[
                 styles.thumbnail,
                 participant.pinned && !tileView
                     ? _styles.thumbnailPinned : null,
                 props.styleOverrides || null
-            ] }
-            touchFeedback = { false }>
+            ]}
+            touchFeedback={false}>
 
             <ParticipantView
-                avatarSize = { AVATAR_SIZE }
-                disableVideo = { isScreenShare || participant.isFakeParticipant }
-                participantId = { participantId }
-                style = { _styles.participantViewStyle }
-                tintEnabled = { participantInLargeVideo && !disableTint }
-                tintStyle = { _styles.activeThumbnailTint }
-                zOrder = { 1 } />
+                avatarSize={AVATAR_SIZE}
+                disableVideo={isScreenShare || participant.isFakeParticipant}
+                participantId={participantId}
+                style={_styles.participantViewStyle}
+                tintEnabled={participantInLargeVideo && !disableTint}
+                tintStyle={_styles.activeThumbnailTint}
+                zOrder={1}
+                // zvs
+                //
+                connectionStatus={participant.role} // kullanıcı katılmış mı? 10 kişiden az gruplarda kullanıcının gelip gelmediğini anlamak için
+                url={participant.avatarURL}
+            />
 
-            { renderDisplayName && <DisplayNameLabel participantId = { participantId } /> }
+            {
+                // zvs: video altındaki isim yazan banner 
+                //renderDisplayName && <DisplayNameLabel participantId = { participantId } /> 
+            }
 
-            { renderModeratorIndicator
-                && <View style = { styles.moderatorIndicatorContainer }>
+            {renderModeratorIndicator
+                && <View style={styles.moderatorIndicatorContainer}>
                     <ModeratorIndicator />
                 </View>}
 
-            { !participant.isFakeParticipant && <View
-                style = { [
+            {!participant.isFakeParticipant && <View
+                style={[
                     styles.thumbnailTopIndicatorContainer,
                     styles.thumbnailTopLeftIndicatorContainer
-                ] }>
-                <RaisedHandIndicator participantId = { participant.id } />
-                { renderDominantSpeakerIndicator && <DominantSpeakerIndicator /> }
-            </View> }
+                ]}>
+                <RaisedHandIndicator participantId={participant.id} />
+                {renderDominantSpeakerIndicator && <DominantSpeakerIndicator />}
+            </View>}
 
-            { !participant.isFakeParticipant && <View
-                style = { [
+            {!participant.isFakeParticipant && <View
+                style={[
                     styles.thumbnailTopIndicatorContainer,
                     styles.thumbnailTopRightIndicatorContainer
-                ] }>
-                <ConnectionIndicator participantId = { participant.id } />
-            </View> }
+                ]}>
+                <ConnectionIndicator participantId={participant.id} />
+            </View>}
 
-            { !participant.isFakeParticipant && <Container style = { styles.thumbnailIndicatorContainer }>
-                { audioMuted
-                    && <AudioMutedIndicator /> }
+            {
+                // zvs: video ve audio iconlarının olduğu container
+            }
+            {!participant.isFakeParticipant && <Container style={styles.thumbnailIndicatorContainer}>
+                {audioMuted
+                    && <AudioMutedIndicator />}
 
-                { videoMuted
-                    && <VideoMutedIndicator /> }
-            </Container> }
+                {videoMuted
+                    && <VideoMutedIndicator />}
+            </Container>}
 
         </Container>
     );

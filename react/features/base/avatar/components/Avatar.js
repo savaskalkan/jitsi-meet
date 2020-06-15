@@ -122,7 +122,8 @@ class Avatar<P: Props> extends PureComponent<P, State> {
             id,
             size,
             status,
-            url
+            url,
+            connectionStatus
         } = this.props;
         const { avatarFailed } = this.state;
 
@@ -134,7 +135,10 @@ class Avatar<P: Props> extends PureComponent<P, State> {
             onAvatarLoadError: undefined,
             size,
             status,
-            url: undefined
+            //url: undefined
+            //zvs
+            url: url? url : undefined,
+            connectionStatus: connectionStatus
         };
 
         // _loadableAvatarUrl is validated that it can be loaded, but uri (if present) is not, so

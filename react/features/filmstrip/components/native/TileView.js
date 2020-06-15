@@ -104,26 +104,21 @@ class TileView extends Component<Props> {
      */
     render() {
         const { _height, _width, onClick } = this.props;
-        const rowElements = this._groupIntoRows(this._renderThumbnails(), this._getColumnCount());
-
+        const rowElements = this._renderThumbnails()
+        /*         const rowElements = this._groupIntoRows(this._renderThumbnails(), this._getColumnCount());
+         */
         return (
-            <ScrollView
-                style = {{
-                    ...styles.tileView,
-                    height: _height,
-                    width: _width
-                }}>
-                <TouchableWithoutFeedback onPress = { onClick }>
-                    <View
-                        style = {{
-                            ...styles.tileViewRows,
-                            minHeight: _height,
-                            minWidth: _width
-                        }}>
-                        { rowElements }
-                    </View>
-                </TouchableWithoutFeedback>
-            </ScrollView>
+            <TouchableWithoutFeedback onPress={onClick}>
+                <View
+                    style={{
+                        ...styles.tileViewRows,
+                        minHeight: _height,
+                        minWidth: _width
+                    }}>
+                    {rowElements}
+                </View>
+            </TouchableWithoutFeedback>
+
         );
     }
 
@@ -158,7 +153,7 @@ class TileView extends Component<Props> {
      * @returns {Participant[]}
      */
     _getSortedParticipants() {
-        const participants = [];
+        let participants = [];
         let localParticipant;
 
         for (const participant of this.props._participants) {
@@ -169,7 +164,35 @@ class TileView extends Component<Props> {
             }
         }
 
-        localParticipant && participants.push(localParticipant);
+
+        let participantCount = participants.length;
+        //  eğer 10 kişiden az katılımcı varsa nativeden gelen listeye göre hazırlansın layout
+        console.log()
+        if (this.props._bipState.invitedParticipants.length <= 9) {
+            participantCount = this.props._bipState.invitedParticipants.length
+            let _newParticipantsLessTen = []
+            participants.map(participant => {
+                _newParticipantsLessTen = this.props._bipState.invitedParticipants.filter(function (el) {
+                    return el.id != participant.id
+                });
+            })
+            participants = [...participants, ..._newParticipantsLessTen]
+            console.log("zvs participants 285", participants)
+        }
+
+        // zvs:
+        // local katılımcıyı katılımcı sayısı 2 ise listenin başına ekledik.
+        // 3 kullanıcı ve fazlaysa listenin 2. sırasında yer alacak. (ekranın sağ üstünde)
+        //console.log("zvs participants 0", participants.length)
+        if (participantCount < 3) {
+            localParticipant && participants.unshift(localParticipant);
+            console.log("zvs participants 1", participants)
+        } else {
+            participants.splice(1, 0, localParticipant);
+            console.log("zvs participants 2", participants)
+        }
+        // katılımcıların listesi
+        // local olan katılımcı -> local: true
 
         return participants;
     }
@@ -221,9 +244,9 @@ class TileView extends Component<Props> {
 
                 rowElements.push(
                     <View
-                        key = { rowElements.length }
-                        style = { styles.tileViewRow }>
-                        { thumbnailsInRow }
+                        key={rowElements.length}
+                        style={styles.tileViewRow}>
+                        {thumbnailsInRow}
                     </View>
                 );
             }
@@ -248,16 +271,73 @@ class TileView extends Component<Props> {
         };
 
         return this._getSortedParticipants()
-            .map(participant => (
-                <Thumbnail
-                    disableTint = { true }
-                    key = { participant.id }
-                    participant = { participant }
-                    renderDisplayName = { true }
-                    styleOverrides = { styleOverrides }
-                    tileView = { true } />));
+            .map((participant, index) => {
+                const sizes = this._getTileDimensionSpecial(index)
+                const styleOverrides = {
+                    //aspectRatio: TILE_ASPECT_RATIO,
+                    flex: 0,
+                    //height: this._getTileDimensions().height,
+                    height: sizes.height,
+                    width: sizes.width
+                };
+                return (<Thumbnail
+                    disableTint={true}
+                    key={participant.id}
+                    participant={participant}
+                    renderDisplayName={true}
+                    styleOverrides={styleOverrides}
+                    tileView={true} />)
+            });
     }
 
+    // zvs: tileları ekrana dizme
+    _getTileDimensionSpecial(index) {
+        const { _participants, _bipState, _height, _width  } = this.props;
+        let participantCount = _participants.length;
+
+        //  eğer 10 kişiden az katılımcı varsa nativeden gelen listeye göre hazırlansın layout
+        if (_bipState.invitedParticipants.length <= 9 && _participants.length > 1) {
+            participantCount = _bipState.invitedParticipants.length
+            console.log("zvs participantCount ", participantCount)
+        }
+
+        let tileHeight;
+        let tileWidth;
+        console.log("zvs dimensions ", _height, _width)
+        if (participantCount < 3) {
+            tileHeight = _height / participantCount
+            tileWidth = _width
+        }
+        else if (participantCount == 3) {
+            switch (index) {
+                case 0:
+                    tileHeight = _height / 2
+                    tileWidth = _width
+                    break;
+                case 1:
+                    tileHeight = _height / 2
+                    tileWidth = _width / 2
+                    break;
+                case 2:
+                    tileHeight = _height / 2
+                    tileWidth = _width / 2
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        else if (participantCount > 3) {
+            tileHeight = _height / Math.round(participantCount / 2)
+            tileWidth = _width / 2
+            console.log("zvs tile dimensions ", tileHeight, tileWidth)
+        }
+
+        return {
+            height: tileHeight,
+            width: tileWidth
+        };
+    }
     /**
      * Sets the receiver video quality based on the dimensions of the thumbnails
      * that are displayed.
@@ -287,7 +367,8 @@ function _mapStateToProps(state) {
         _aspectRatio: responsiveUi.aspectRatio,
         _height: responsiveUi.clientHeight,
         _participants: state['features/base/participants'],
-        _width: responsiveUi.clientWidth
+        _width: responsiveUi.clientWidth,
+        _bipState: state['features/base/bipState'],
     };
 }
 

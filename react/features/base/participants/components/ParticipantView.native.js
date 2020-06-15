@@ -226,7 +226,8 @@ class ParticipantView extends Component<Props> {
 
                 { renderYoutubeLargeVideo && <YoutubeLargeVideo youtubeId = { this.props.participantId } /> }
 
-                { !_isFakeParticipant && renderVideo
+                { // video stream açık ise 
+                !_isFakeParticipant && renderVideo
                     && <VideoTrack
                         onPress = { onPress }
                         videoTrack = { videoTrack }
@@ -234,15 +235,21 @@ class ParticipantView extends Component<Props> {
                         zOrder = { this.props.zOrder }
                         zoomEnabled = { this.props.zoomEnabled } /> }
 
-                { !renderYoutubeLargeVideo && !renderVideo
-                    && <View style = { styles.avatarContainer }>
+                { // video stream kapalı ise  
+                !renderYoutubeLargeVideo && !renderVideo
+                    && <View style = { styles.avatarContainerWithImg }>
                         <Avatar
                             participantId = { this.props.participantId }
-                            size = { this.props.avatarSize } />
+                            size = { this.props.avatarSize } 
+                            // zvs
+                            url = {this.props.url}
+                            connectionStatus = {this.props.connectionStatus} 
+                            />
                     </View> }
 
                 { useTint
-
+                    // zvs: bağlantı kötü olduğunda yada olmadığında video yerine burayı editleyebiliriz.
+                    // odaya birilerinin bağlanmasını beklerken bunu kullanabiliriz. 
                     // If the connection has problems, tint the video / avatar.
                     && <TintedView
                         style = {

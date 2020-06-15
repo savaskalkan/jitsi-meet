@@ -722,5 +722,12 @@
         "dontShowAgain": "Bunu bir daha gösterme",
         "buttonText": "Chrome Eklentisi'ni indirin",
         "installExtensionText": "Google Takvim ve Office 365 entegrasyonu için uzantıyı yükleyin"
+    },
+
+    "bip": {
+        "encrypted": "Şifreli",
+        "videoCallInfo":"Görüntülü Aranıyor",
+        "voiceCallInfo":"Sesli Aranıyor"
     }
+
 }

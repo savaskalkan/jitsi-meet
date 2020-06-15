@@ -25,6 +25,15 @@ import '../../mobile/wake-lock';
 import '../../mobile/watchos';
 import logger from '../logger';
 
+import "../../base/bipState";
+import { 
+    setInvitedParticipants, 
+    setCallType,
+ } from "../../base/bipState";
+
+import dummy from '../../base/bipState/dummy.json';
+
+
 import { AbstractApp } from './AbstractApp';
 import type { Props as AbstractAppProps } from './AbstractApp';
 
@@ -107,6 +116,14 @@ export class App extends AbstractApp {
             if (typeof callIntegrationEnabled !== 'undefined') {
                 dispatch(updateSettings({ disableCallIntegration: !callIntegrationEnabled }));
             }
+
+            dispatch(setInvitedParticipants(dummy.invitedParticipants))
+            /**
+             * call type atama
+             * 0 -> videocall
+             * 1 -> voicecall
+             */
+            dispatch(setCallType(0))
         });
     }
 

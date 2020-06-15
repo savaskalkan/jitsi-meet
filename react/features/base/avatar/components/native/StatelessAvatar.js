@@ -53,8 +53,10 @@ export default class StatelessAvatar extends AbstractStatelessAvatar<Props> {
             <View>
                 <View
                     style = { [
-                        styles.avatarContainer(size),
-                        style
+                        //styles.avatarContainer(size),
+                        style,
+                        // zvs
+                        {backgroundColor:'cyan', width:'100%', height:'100%', justifyContent:'center', alignItems:'center'}
                     ] }>
                     { avatar }
                 </View>
@@ -161,7 +163,9 @@ export default class StatelessAvatar extends AbstractStatelessAvatar<Props> {
                 onError = { onAvatarLoadError }
                 resizeMode = 'cover'
                 source = {{ uri: url }}
-                style = { styles.avatarContent(size) } />
+                //style = { styles.avatarContent(size) } 
+                style = {{width:'100%', height:'100%',}} 
+                />
         );
     }
 }

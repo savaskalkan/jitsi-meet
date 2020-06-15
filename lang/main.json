@@ -891,5 +891,12 @@
         "passwordJoinButton": "Join",
         "reject": "Reject",
         "toggleLabel": "Enable lobby"
+    },
+
+
+    "bip": {
+        "encrypted": "Encrypted",
+        "videoCallInfo":"Video call is being started",
+        "voiceCallInfo":"Voice call is being started"
     }
 }

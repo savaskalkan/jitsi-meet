@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 
 import { PIP_ENABLED, getFeatureFlag } from '../../../base/flags';
 import { translate } from '../../../base/i18n';
-import { IconMenuDown } from '../../../base/icons';
+import { IconArrowBack } from '../../../base/icons';
 import { connect } from '../../../base/redux';
 import { AbstractButton } from '../../../base/toolbox';
 import type { AbstractButtonProps } from '../../../base/toolbox';
@@ -28,7 +28,7 @@ type Props = AbstractButtonProps & {
  */
 class PictureInPictureButton extends AbstractButton<Props, *> {
     accessibilityLabel = 'toolbar.accessibilityLabel.pip';
-    icon = IconMenuDown;
+    icon = IconArrowBack;
     label = 'toolbar.pip';
 
     /**

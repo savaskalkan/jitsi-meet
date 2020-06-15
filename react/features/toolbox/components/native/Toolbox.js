@@ -13,8 +13,12 @@ import AudioMuteButton from '../AudioMuteButton';
 import HangupButton from '../HangupButton';
 import VideoMuteButton from '../VideoMuteButton';
 
-import OverflowMenuButton from './OverflowMenuButton';
+//import OverflowMenuButton from './OverflowMenuButton';
 import styles from './styles';
+// zvs
+import { TileViewButton } from '../../../video-layout';
+//import SwitchCameraButton from "../SwitchCameraButton";
+
 
 /**
  * The type of {@link Toolbox}'s React {@code Component} props.
@@ -50,9 +54,9 @@ class Toolbox extends PureComponent<Props> {
     render() {
         return (
             <Container
-                style = { styles.toolbox }
-                visible = { this.props._visible }>
-                { this._renderToolbar() }
+                style={styles.toolbox}
+                visible={this.props._visible}>
+                {this._renderToolbar()}
             </Container>
         );
     }
@@ -101,23 +105,30 @@ class Toolbox extends PureComponent<Props> {
 
         return (
             <View
-                accessibilityRole = 'toolbar'
-                pointerEvents = 'box-none'
-                style = { styles.toolbar }>
-                <ChatButton
+                accessibilityRole='toolbar'
+                pointerEvents='box-none'
+                style={styles.toolbar}>
+                {/*  <ChatButton
                     styles = { buttonStylesBorderless }
-                    toggledStyles = { this._getChatButtonToggledStyle(toggledButtonStyles) } />
-                <AudioMuteButton
-                    styles = { buttonStyles }
-                    toggledStyles = { toggledButtonStyles } />
+                    toggledStyles = { this._getChatButtonToggledStyle(toggledButtonStyles) } /> */}
+                {/*  <SwitchCameraButton
+                    styles={buttonStyles}
+                    toggledStyles={toggledButtonStyles} /> */}
                 <HangupButton
-                    styles = { hangupButtonStyles } />
+                    styles={hangupButtonStyles} />
                 <VideoMuteButton
-                    styles = { buttonStyles }
-                    toggledStyles = { toggledButtonStyles } />
-                <OverflowMenuButton
+                    styles={buttonStyles}
+                    toggledStyles={toggledButtonStyles} />
+                <AudioMuteButton
+                    styles={buttonStyles}
+                    toggledStyles={toggledButtonStyles} />
+
+                <TileViewButton
+                    styles={buttonStyles}
+                    toggledStyles={toggledButtonStyles} />
+                {/*                 <OverflowMenuButton
                     styles = { buttonStylesBorderless }
-                    toggledStyles = { toggledButtonStyles } />
+                toggledStyles = { toggledButtonStyles } /> */}
             </View>
         );
     }

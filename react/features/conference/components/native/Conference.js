@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { NativeModules, SafeAreaView, StatusBar } from 'react-native';
+import { NativeModules, SafeAreaView, StatusBar, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { appNavigate } from '../../../app';
@@ -36,6 +36,8 @@ import Labels from './Labels';
 import LonelyMeetingExperience from './LonelyMeetingExperience';
 import NavigationBar from './NavigationBar';
 import styles, { NAVBAR_GRADIENT_COLORS } from './styles';
+// ZVS
+import { FirstScreenShortInfo } from "../../../base/bipState";
 
 
 /**
@@ -142,14 +144,16 @@ class Conference extends AbstractConference<Props, *> {
      * @inheritdoc
      * @returns {ReactElement}
      */
+
+    //zvs: status bar görüntülenmesi 
     render() {
         return (
-            <Container style = { styles.conference }>
+            <Container style={styles.conference}>
                 <StatusBar
-                    barStyle = 'light-content'
-                    hidden = { true }
-                    translucent = { true } />
-                { this._renderContent() }
+                    barStyle='light-content'
+                    hidden={true}
+                    translucent={true} />
+                {this._renderContent()}
             </Container>
         );
     }
@@ -200,9 +204,9 @@ class Conference extends AbstractConference<Props, *> {
      */
     _renderConferenceModals() {
         return [
-            <AddPeopleDialog key = 'addPeopleDialog' />,
-            <Chat key = 'chat' />,
-            <SharedDocument key = 'sharedDocument' />
+            <AddPeopleDialog key='addPeopleDialog' />,
+            <Chat key='chat' />,
+            <SharedDocument key='sharedDocument' />
         ];
     }
 
@@ -251,8 +255,8 @@ class Conference extends AbstractConference<Props, *> {
                   * The LargeVideo is the lowermost stacking layer.
                   */
                     _shouldDisplayTileView
-                        ? <TileView onClick = { this._onClick } />
-                        : <LargeVideo onClick = { this._onClick } />
+                        ? <TileView onClick={this._onClick} />
+                        : <LargeVideo onClick={this._onClick} />
                 }
 
                 {/*
@@ -266,45 +270,53 @@ class Conference extends AbstractConference<Props, *> {
                   * the toolbox/toolbars and the dialogs.
                   */
                     _connecting
-                        && <TintedView>
-                            <LoadingIndicator />
-                        </TintedView>
+                    && <TintedView>
+                        <LoadingIndicator />
+                    </TintedView>
                 }
 
                 <SafeAreaView
-                    pointerEvents = 'box-none'
-                    style = { styles.toolboxAndFilmstripContainer }>
+                    pointerEvents='box-none'
+                    style={styles.toolboxAndFilmstripContainer}>
+                    {
+                        // zvs: davet edilen profile listesi burada view'ın arasında render edilecek
+                    }
+                    <View>
+                        <FirstScreenShortInfo />
+                    </View>
 
-                    { showGradient && <LinearGradient
-                        colors = { NAVBAR_GRADIENT_COLORS }
-                        end = {{
-                            x: 0.0,
-                            y: 0.0
-                        }}
-                        pointerEvents = 'none'
-                        start = {{
-                            x: 0.0,
-                            y: 1.0
-                        }}
-                        style = { [
-                            styles.bottomGradient,
-                            applyGradientStretching ? styles.gradientStretchBottom : undefined
-                        ] } />}
+                    <View>
+                        {showGradient && <LinearGradient
+                            colors={NAVBAR_GRADIENT_COLORS}
+                            end={{
+                                x: 0.0,
+                                y: 0.0
+                            }}
+                            pointerEvents='none'
+                            start={{
+                                x: 0.0,
+                                y: 1.0
+                            }}
+                            style={[
+                                styles.bottomGradient,
+                                applyGradientStretching ? styles.gradientStretchBottom : undefined
+                            ]} />}
 
-                    <Labels />
+                        <Labels />
 
-                    <Captions onPress = { this._onClick } />
+                        <Captions onPress={this._onClick} />
 
-                    { _shouldDisplayTileView || <DisplayNameLabel participantId = { _largeVideoParticipantId } /> }
+                        {_shouldDisplayTileView || <DisplayNameLabel participantId={_largeVideoParticipantId} />}
 
-                    <LonelyMeetingExperience />
+                        {/* <LonelyMeetingExperience /> */}
 
-                    {/*
+                        {/*
                       * The Toolbox is in a stacking layer below the Filmstrip.
+                            // zvs: toolboxın render edildiği yer
                       */}
-                    <Toolbox />
+                        <Toolbox />
 
-                    {/*
+                        {/*
                       * The Filmstrip is in a stacking layer above the
                       * LargeVideo. The LargeVideo and the Filmstrip form what
                       * the Web/React app calls "videospace". Presumably, the
@@ -312,23 +324,27 @@ class Conference extends AbstractConference<Props, *> {
                       * React Components depict the videos of the conference's
                       * participants.
                       */
-                        _shouldDisplayTileView ? undefined : <Filmstrip />
-                    }
+                            _shouldDisplayTileView ? undefined : <Filmstrip />
+                        }
+                    </View>
                 </SafeAreaView>
 
                 <SafeAreaView
-                    pointerEvents = 'box-none'
-                    style = { styles.navBarSafeView }>
+                    pointerEvents='box-none'
+                    style={styles.navBarSafeView}>
+                    {
+                        // zvs: üst menü componenti. back butonu ve konuşmaya ait oda bilgisi ismi, süre bilgisi
+                    }
                     <NavigationBar />
-                    { this._renderNotificationsContainer() }
+                    {this._renderNotificationsContainer()}
                     <KnockingParticipantList />
                 </SafeAreaView>
 
                 <TestConnectionInfo />
 
-                { this._renderConferenceNotification() }
+                {this._renderConferenceNotification()}
 
-                { this._renderConferenceModals() }
+                {this._renderConferenceModals()}
             </>
         );
     }
@@ -344,13 +360,13 @@ class Conference extends AbstractConference<Props, *> {
 
         return (
             <>
-                <LargeVideo onClick = { this._onClick } />
+                <LargeVideo onClick={this._onClick} />
 
                 {
                     _connecting
-                        && <TintedView>
-                            <LoadingIndicator />
-                        </TintedView>
+                    && <TintedView>
+                        <LoadingIndicator />
+                    </TintedView>
                 }
             </>
         );

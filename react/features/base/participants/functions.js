@@ -235,6 +235,7 @@ export function getPinnedParticipant(stateful: Object | Function) {
  * @returns {Participant[]}
  */
 function _getAllParticipants(stateful) {
+    console.log("zvs: stateful 238",stateful)
     return (
         Array.isArray(stateful)
             ? stateful

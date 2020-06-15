@@ -49,3 +49,14 @@ export function shouldDisplayNotifications(stateful) {
             && !isAnyOverlayVisible
             && !calleeInfoVisible;
 }
+
+
+
+/// zvs
+
+export function _addParticipantButtonOnPress() {
+    // 10 kişiden az ise katılımcı sayısı yada davetli sayısı(büyük ihtimal davetli sayısı)
+    // buton aktif olabilir
+    // 10 kişiden fazla ise pasif olacaktır
+    console.log("zvs: add participant function")
+}

@@ -15,13 +15,13 @@ const DEFAULT_GRADIENT_SIZE = 140;
 export default {
 
     bottomGradient: {
-        bottom: 0,
+        bottom: -10,
         flexDirection: 'column',
         justifyContent: 'flex-end',
         minHeight: DEFAULT_GRADIENT_SIZE,
         left: 0,
         position: 'absolute',
-        right: 0
+        right: -5
     },
 
     /**
@@ -124,7 +124,7 @@ export default {
         alignItems: 'center',
         flex: 1,
         flexDirection: 'row',
-        height: 44,
+        height: 84,
         justifyContent: 'space-between',
         paddingHorizontal: 14
     },
@@ -158,9 +158,10 @@ export default {
     toolboxAndFilmstripContainer: {
         bottom: 0,
         flexDirection: 'column',
-        justifyContent: 'flex-end',
+        //justifyContent: 'flex-end',
+        justifyContent: 'space-between',
         left: 0,
-        paddingBottom: BoxModel.padding,
+        //paddingBottom: BoxModel.padding,
         position: 'absolute',
         right: 0,
 
@@ -172,6 +173,9 @@ export default {
 
     insecureRoomNameLabel: {
         backgroundColor: INSECURE_ROOM_NAME_LABEL_COLOR
+    },
+    headTitle:{
+        flexDirection:'row'
     }
 };
 

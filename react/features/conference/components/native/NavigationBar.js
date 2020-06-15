@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { SafeAreaView, Text, View, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { getConferenceName } from '../../../base/conference';
@@ -10,6 +10,10 @@ import { connect } from '../../../base/redux';
 import { PictureInPictureButton } from '../../../mobile/picture-in-picture';
 import { isToolboxVisible } from '../../../toolbox';
 import ConferenceTimer from '../ConferenceTimer';
+// zvs
+import { translate } from '../../../base/i18n';
+import { Icon, IconLockPassword, addParticipant } from '../../../base/icons';
+import { _addParticipantButtonOnPress } from '../../functions';
 
 import styles, { NAVBAR_GRADIENT_COLORS } from './styles';
 
@@ -67,14 +71,32 @@ class NavigationBar extends Component<Props> {
                     style = { styles.roomNameWrapper }>
                     {
                         this.props._meetingNameEnabled
-                        && <Text
-                            numberOfLines = { 1 }
-                            style = { styles.roomName }>
-                            { this.props._meetingName }
-                        </Text>
+                        && <View style={styles.headTitle}>
+                            <Icon
+                                size={24}
+                                src={IconLockPassword}
+                                style={styles.lonelyButtonComponents} />
+                            <Text
+                                numberOfLines={1}
+                                style={styles.roomName}>
+                                {this.props.t('bip.encrypted')}
+                            </Text>
+                        </View>
                     }
                     <ConferenceTimer />
                 </View>
+                {
+                    // zvs
+                    // 10 kişiden az ise katılımcı sayısı yada davetli sayısı(büyük ihtimal davetli sayısı)
+                    // buton aktif olabilir
+                    // 10 kişiden fazla ise pasif olacaktır
+                }
+                <TouchableOpacity onPress={()=> _addParticipantButtonOnPress()}>
+                    <Icon
+                        size={24}
+                        src={addParticipant}
+                        style={styles.lonelyButtonComponents} />
+                </TouchableOpacity>
             </View>
         ];
     }
@@ -95,4 +117,4 @@ function _mapStateToProps(state) {
     };
 }
 
-export default connect(_mapStateToProps)(NavigationBar);
+export default connect(_mapStateToProps)(translate(NavigationBar));

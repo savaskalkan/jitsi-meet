@@ -13,6 +13,12 @@ export default {
         alignItems: 'center',
         justifyContent: 'center'
     },
+    /**
+     *  zvs: avatar yerine gelecek olan profil fotoğraflarının içinde bulunduğu view
+     */
+        avatarContainerWithImg: {
+            flex: 1,
+        },
 
     /**
      * Style for the text rendered when there is a connectivity problem.
@@ -38,6 +44,7 @@ export default {
 
     /**
      * {@code ParticipantView} style.
+     * zvs: video ve avatarın view styleı
      */
     participantView: {
         alignItems: 'stretch',
